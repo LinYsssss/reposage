@@ -3,6 +3,11 @@ spring:
     name: reposage
   profiles:
     active: ${APP_ENV:dev}
+  flyway:
+    # Migrations are PostgreSQL-specific (pgvector). The default/dev/test profiles run on H2
+    # via Hibernate ddl-auto, so Flyway must stay off here; it is enabled only in prod and the
+    # Testcontainers integration tests.
+    enabled: false
 
 server:
   port: ${SERVER_PORT:8080}
