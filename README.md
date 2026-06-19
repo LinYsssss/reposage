@@ -239,11 +239,22 @@ bash scripts/init-demo-repo.sh
 启动的服务：PostgreSQL + pgvector、RabbitMQ、Spring Boot 后端、FastAPI 模型服务、Vue 前端、Nginx。
 对外入口：前端 `http://服务器IP/`，健康检查 `http://服务器IP/actuator/health`，RabbitMQ 管理台 `http://服务器IP:15672`。
 
-生产环境启动时执行 `backend/src/main/resources/db/schema-postgres.sql` 初始化表与 pgvector 表，并以 `ddl-auto=validate` 校验实体结构。详见 `docs/12_服务器部署与演示手册.md`。
+生产环境的数据库结构由 **Flyway 迁移**管理（`backend/src/main/resources/db/migration/V*.sql`），后端启动时自动应用尚未执行的迁移，并以 `ddl-auto=validate` 校验实体结构。`baseline-on-migrate` 允许对已有的非空旧库平滑升级（V2 迁移对缺失的列/索引做幂等补齐）。开发/测试环境走 H2 + Hibernate，Flyway 默认关闭。详见 `docs/12_服务器部署与演示手册.md`。
 
 ---
 
 ## 构建与测试
+
+### 兼容基线
+
+| 组件 | 支持基线 |
+| --- | --- |
+| Java | 17 |
+| Node | 20 LTS |
+| Maven | 3.9+ |
+| PostgreSQL | 16 + pgvector |
+| RabbitMQ | 3.13 |
+| Docker Compose | v2 |
 
 后端测试：
 
@@ -252,18 +263,23 @@ cd backend
 mvn -s .mvn/settings.xml test
 ```
 
-前端构建：
+前端测试与构建：
 
 ```text
 cd frontend
+npm test
 npm run build
 ```
 
-一键本地验收（后端测试 + 前端构建 + 模型服务检查 + 后端冒烟 + Docker 可用性检查）：
+一键本地验收（后端测试 + 前端测试 + 前端构建 + 模型服务检查 + 后端冒烟 + Docker 可用性检查）：
 
 ```text
 .\scripts\verify-local.ps1
 ```
+
+> CI（`.github/workflows/ci.yml`）在每次 push / PR 上跑同一套门：`mvn verify`（含 JaCoCo 覆盖率报告）+ `npm ci/test/build`。无 Docker 的机器上 Testcontainers 集成测试自动跳过，CI 上真实运行。
+
+**数据库迁移规则**：生产 schema 变更必须新增不可变的 `backend/src/main/resources/db/migration/V<N>__描述.sql`；已发布的迁移文件**绝不能再修改**（Flyway 以校验和锁定历史），只能追加新版本。
 
 后端冒烟（启动后端后执行，跑通注册→建项目→绑仓库→传知识库→审查→报告→反馈全链路）：
 
