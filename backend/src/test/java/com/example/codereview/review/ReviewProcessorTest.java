@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.example.codereview.ai.AiCallLogService;
@@ -86,5 +87,20 @@ class ReviewProcessorTest {
 
     private static AiReviewResult.Issue issue(String title) {
         return new AiReviewResult.Issue("HIGH", "AUTH_RISK", "f.java", 1, 2, title, "d", "i", "e", "s", 0.9);
+    }
+
+    @Test
+    void terminalTask_writesNothingAndCallsNoCollaborators() {
+        ReviewTask task = new ReviewTask(7L, 1L, "abc", null, "main", 9L, THREE_FILE_DIFF);
+        task.markCanceled();
+        when(tasks.findById(1L)).thenReturn(Optional.of(task));
+
+        ReviewProcessor processor = new ReviewProcessor(tasks, ragService, aiReviewClient, aiCallLogService,
+                aiMetrics, modelRiskClient, taskStatusService, resultWriter, prReviewCommenter, 48_000, 1, 40);
+
+        processor.process(1L);
+
+        // A canceled (terminal) task must not run the model, RAG, AI review, or write any report.
+        verifyNoInteractions(modelRiskClient, ragService, aiReviewClient, resultWriter, taskStatusService);
     }
 }
