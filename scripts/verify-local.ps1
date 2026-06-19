@@ -41,7 +41,17 @@ function Invoke-CommandChecked {
 
     Push-Location $WorkingDirectory
     try {
-        & $FilePath @Arguments
+        # Build tools (mvn, npm) legitimately write warnings to stderr (e.g. the JVM CDS notice,
+        # npm EBADENGINE). Under $ErrorActionPreference='Stop' PowerShell turns native stderr into a
+        # terminating error, so relax it here and treat the process exit code as the only signal.
+        $previousPreference = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        try {
+            & $FilePath @Arguments
+        }
+        finally {
+            $ErrorActionPreference = $previousPreference
+        }
         if ($LASTEXITCODE -ne 0) {
             throw "$FilePath exited with code $LASTEXITCODE"
         }
@@ -140,6 +150,10 @@ function Test-DockerAvailability {
 try {
     Invoke-Step "Backend tests" {
         Invoke-CommandChecked -FilePath "mvn" -Arguments @("-s", ".mvn\settings.xml", "test") -WorkingDirectory $BackendDir
+    }
+
+    Invoke-Step "Frontend tests" {
+        Invoke-CommandChecked -FilePath "npm" -Arguments @("test") -WorkingDirectory $FrontendDir
     }
 
     Invoke-Step "Frontend build" {
