@@ -51,6 +51,12 @@ app:
     enabled: ${RATE_LIMIT_ENABLED:true}
     limit: ${RATE_LIMIT_REQUESTS:120}
     window-seconds: ${RATE_LIMIT_WINDOW_SECONDS:60}
+  webhook:
+    enabled: ${WEBHOOK_ENABLED:true}
+    post-comments: ${WEBHOOK_POST_COMMENTS:true}
+    github:
+      secret: ${GITHUB_WEBHOOK_SECRET:}
+      api-base: ${GITHUB_API_BASE:https://api.github.com}
   security:
     token-secret: ${JWT_SECRET:dev-secret-change-me}
     token-ttl-seconds: ${TOKEN_TTL_SECONDS:86400}

@@ -26,6 +26,7 @@ RepoSage 以 Git Commit 的 Diff 为输入，结合项目知识库和大模型�
 - **安全**：登录 Token 鉴权；Git accessToken 用 AES-GCM 加密存储，接口不返回明文。
 - **可观测**：`ai_call_log` 记录每次大模型 / embedding / 模型调用的类型、模型、耗时、输入输出长度、**Token 用量**、状态和错误；并通过 Micrometer 把审查时延 / 吞吐 / Token 成本暴露到 `/actuator/prometheus`。
 - **生产级护栏**：每请求 `X-Trace-Id` 贯穿日志（MDC）；按用户/IP 的接口限流（超限返回 429 + `Retry-After`）；`/actuator/health` 深度探活（AI provider / 模型服务 / DB / 磁盘，细节仅鉴权可见）。
+- **GitHub Webhook 自动审查**：接收 `pull_request` 事件（HMAC-SHA256 签名校验），自动登记 PR 并触发审查，完成后把报告回写成 PR 评论。无 Secret / 无 token 时安全降级，零配置可本地演示。
 - **可部署**：提供 Docker Compose（PostgreSQL+pgvector、RabbitMQ、后端、模型服务、前端、Nginx）。
 
 ---
@@ -160,6 +161,10 @@ RAG_FULL_CONTEXT=true
 | `RATE_LIMIT_ENABLED` | `true` | 是否启用 `/api/**` 接口限流 |
 | `RATE_LIMIT_REQUESTS` | `120` | 单个时间窗内每用户/IP 允许的请求数，超出返回 429 |
 | `RATE_LIMIT_WINDOW_SECONDS` | `60` | 限流时间窗长度（秒） |
+| `WEBHOOK_ENABLED` | `true` | 是否启用 GitHub webhook 入口 |
+| `GITHUB_WEBHOOK_SECRET` | 空 | webhook HMAC 校验密钥；为空时跳过校验（仅本地/演示） |
+| `WEBHOOK_POST_COMMENTS` | `true` | 审查完成后是否回写 PR 评论（需仓库存有 token） |
+| `GITHUB_API_BASE` | `https://api.github.com` | GitHub API 地址（可指向 Enterprise） |
 
 ---
 
@@ -209,6 +214,7 @@ RAG_FULL_CONTEXT=true
 | 审查 | `POST/GET /api/projects/{projectId}/reviews/tasks`、`GET .../tasks/{taskId}`、`GET .../reviews/reports`、`GET .../reports/{reportId}` |
 | 反馈 | `POST/GET /api/review-issues/{issueId}/feedback` |
 | MQ 日志 | `GET /api/mq/logs` |
+| Webhook | `POST /api/webhooks/github`（公开，HMAC 签名校验） |
 | AI 日志 | `GET /api/ai/logs` |
 
 接口字段细节见 `docs/03_接口设计文档.md`。

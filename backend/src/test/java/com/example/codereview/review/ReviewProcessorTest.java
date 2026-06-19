@@ -16,6 +16,7 @@ import com.example.codereview.ai.AiReviewResult;
 import com.example.codereview.ai.TokenUsage;
 import com.example.codereview.model.ModelRiskClient;
 import com.example.codereview.rag.RagService;
+import com.example.codereview.webhook.PrReviewCommenter;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,7 @@ class ReviewProcessorTest {
     @Mock ModelRiskClient modelRiskClient;
     @Mock ReviewTaskStatusService taskStatusService;
     @Mock ReviewResultWriter resultWriter;
+    @Mock PrReviewCommenter prReviewCommenter;
 
     @Test
     void multiFileDiff_fansOutPerFileAndMergesFindings() {
@@ -65,7 +67,7 @@ class ReviewProcessorTest {
 
         // maxDiffChars=1 forces one chunk per file; maxFiles=40 keeps all three.
         ReviewProcessor processor = new ReviewProcessor(tasks, ragService, aiReviewClient, aiCallLogService,
-                aiMetrics, modelRiskClient, taskStatusService, resultWriter, 48_000, 1, 40);
+                aiMetrics, modelRiskClient, taskStatusService, resultWriter, prReviewCommenter, 48_000, 1, 40);
 
         processor.process(1L);
 

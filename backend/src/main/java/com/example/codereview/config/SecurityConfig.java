@@ -35,6 +35,8 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/auth/login", "/api/actuator/health", "/actuator/health").permitAll();
+                    // Webhooks are public but gated by HMAC signature verification, not a bearer token.
+                    auth.requestMatchers("/api/webhooks/**").permitAll();
                     if (h2ConsoleEnabled) {
                         auth.requestMatchers("/h2-console/**").permitAll();
                     }

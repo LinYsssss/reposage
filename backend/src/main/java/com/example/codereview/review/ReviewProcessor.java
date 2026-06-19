@@ -9,6 +9,7 @@ import com.example.codereview.common.exception.BusinessException;
 import com.example.codereview.model.ModelRiskClient;
 import com.example.codereview.model.ModelRiskSignal;
 import com.example.codereview.rag.RagService;
+import com.example.codereview.webhook.PrReviewCommenter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +30,7 @@ public class ReviewProcessor {
     private final ModelRiskClient modelRiskClient;
     private final ReviewTaskStatusService taskStatusService;
     private final ReviewResultWriter resultWriter;
+    private final PrReviewCommenter prReviewCommenter;
     private final int maxPromptChars;
     private final int maxDiffChars;
     private final int maxFiles;
@@ -36,6 +38,7 @@ public class ReviewProcessor {
     public ReviewProcessor(ReviewTaskRepository tasks, RagService ragService, AiReviewClient aiReviewClient,
                            AiCallLogService aiCallLogService, AiMetrics aiMetrics, ModelRiskClient modelRiskClient,
                            ReviewTaskStatusService taskStatusService, ReviewResultWriter resultWriter,
+                           PrReviewCommenter prReviewCommenter,
                            @Value("${app.review.max-prompt-chars:48000}") int maxPromptChars,
                            @Value("${app.review.max-diff-chars:20000}") int maxDiffChars,
                            @Value("${app.review.max-files:40}") int maxFiles) {
@@ -47,6 +50,7 @@ public class ReviewProcessor {
         this.modelRiskClient = modelRiskClient;
         this.taskStatusService = taskStatusService;
         this.resultWriter = resultWriter;
+        this.prReviewCommenter = prReviewCommenter;
         this.maxPromptChars = maxPromptChars;
         this.maxDiffChars = maxDiffChars;
         this.maxFiles = maxFiles;
@@ -66,6 +70,9 @@ public class ReviewProcessor {
             String reviewContext = capContext(buildReviewContext(ragContext, riskSignal), maxDiffChars);
             AiReviewResult result = reviewChunks(task, reviewContext);
             resultWriter.saveSuccess(taskId, result);
+            // If this task came from a (GitHub) PR, post the report back as a PR comment.
+            // Self-guarding and failure-swallowing, so it never breaks the review itself.
+            prReviewCommenter.onReviewCompleted(taskId);
         } catch (RuntimeException ex) {
             taskStatusService.markFailed(taskId, ex.getMessage());
             throw ex;
