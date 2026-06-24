@@ -256,6 +256,22 @@ bash scripts/init-demo-repo.sh
 | RabbitMQ | 3.13 |
 | Docker Compose | v2 |
 
+### Agent 控制面（Phase 2已完成）
+
+RepoSage 正在演进为可恢复的 PR 守门 Agent，核心控制面已实现：
+
+- ✅ **持久化运行与步骤**：`agent_run`、`agent_step` 实体 + V3迁移 + 乐观锁
+- ✅ **状态机**：16种状态转换验证，分支路径覆盖（无发现跳过Patch、验证失败跳过审批）
+- ✅ **预算守卫**：时间/工具调用/模型调用/Token/成本五维预算 + 分类失败（可重试/安全/环境/预算超限）
+- ✅ **工具注册表**：类型化工具接口 + 风险分级（只读/沙箱/生成/需审批）
+- ✅ **计划验证**：模型生成的审查计划 Schema 校验 + 工具白名单 + 审批工具顺序检查
+- ✅ **事务 Outbox**：V5迁移 + 状态转换与消息发布原子提交
+- ✅ **MQ 步骤调度**：幂等消费者骨架 + 重试分类
+- ✅ **恢复服务**：启动时扫描中断的 run 并重新发布
+- ✅ **Timeline API + SSE**：`GET /api/agent-runs/{id}` + Server-Sent Events 流
+- ✅ **兼容层**：`agent_run` → `review_report` 投影服务（保留前端兼容）
+- ✅ **指标**：Micrometer counters/timers（run创建/完成、步骤执行、工具调用）
+
 后端测试：
 
 ```text
