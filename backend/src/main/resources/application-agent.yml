@@ -1,0 +1,16 @@
+# Agent execution budgets and limits
+app:
+  agent:
+    budget:
+      # Maximum execution time per Agent Run
+      max-duration-seconds: 1800  # 30 minutes
+      # Maximum tool invocations per run
+      max-tool-calls: 100
+      # Maximum model calls per run
+      max-model-calls: 20
+      # Maximum input tokens across all model calls
+      max-input-tokens: 500000
+      # Maximum output tokens across all model calls
+      max-output-tokens: 100000
+      # Maximum estimated cost in USD
+      max-cost-usd: 5.00
