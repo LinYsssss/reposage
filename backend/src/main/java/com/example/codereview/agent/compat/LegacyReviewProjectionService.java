@@ -1,8 +1,6 @@
 package com.example.codereview.agent.compat;
 
 import com.example.codereview.agent.run.AgentRunRepository;
-import com.example.codereview.review.ReviewReport;
-import com.example.codereview.review.ReviewReportRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class LegacyReviewProjectionService {
 
     private final AgentRunRepository agentRunRepository;
-    private final ReviewReportRepository reviewReportRepository;
 
-    public LegacyReviewProjectionService(AgentRunRepository agentRunRepository,
-                                          ReviewReportRepository reviewReportRepository) {
+    public LegacyReviewProjectionService(AgentRunRepository agentRunRepository) {
         this.agentRunRepository = agentRunRepository;
-        this.reviewReportRepository = reviewReportRepository;
     }
 
     @Transactional
@@ -27,5 +22,6 @@ public class LegacyReviewProjectionService {
         // One completed Agent Run creates one legacy report
         // Repeated projection is idempotent via unique projection key
         // Converts agent findings to review_issue format
+        // Implementation deferred until review_report entity available
     }
 }
