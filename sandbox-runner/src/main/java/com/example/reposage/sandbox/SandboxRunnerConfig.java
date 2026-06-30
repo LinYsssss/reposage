@@ -20,6 +20,11 @@ public class SandboxRunnerConfig {
     }
 
     @Bean
+    public ContainerPolicy containerPolicy() {
+        return new ContainerPolicy();
+    }
+
+    @Bean
     public SandboxReplayGuard sandboxReplayGuard() {
         return new SandboxReplayGuard();
     }
