@@ -43,6 +43,21 @@ public class SandboxRunnerConfig {
     }
 
     @Bean
+    public SafeArchiveExtractor safeArchiveExtractor() {
+        return new SafeArchiveExtractor();
+    }
+
+    @Bean
+    public RemoteResourceGuard remoteResourceGuard() {
+        return new RemoteResourceGuard();
+    }
+
+    @Bean
+    public RepositoryReadTools repositoryReadTools(ContainerPolicy containerPolicy) {
+        return new RepositoryReadTools(containerPolicy);
+    }
+
+    @Bean
     @ConditionalOnMissingBean(SandboxExecutor.class)
     public SandboxExecutor placeholderSandboxExecutor() {
         return job -> new SandboxResult(
