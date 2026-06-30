@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
  * domain objects. The public fixtures and {@link #assertSatisfiesContract} are reused by the
  * concrete GitHub/GitLab adapter tests to assert they return the same shape.
  */
-class ScmProviderContractTest {
+public class ScmProviderContractTest {
 
     @Test
     void validNormalizedEventExposesEveryRequiredField() {
