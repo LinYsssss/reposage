@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: sandbox-runner
+  main:
+    # Queue consumer only — no embedded web server, no inbound public HTTP port.
+    web-application-type: none
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+
+sandbox:
+  # HMAC key shared with the backend SandboxJobSigner. Must be provided in real deployments.
+  signing-secret: ${SANDBOX_SIGNING_SECRET:}
+  # Docker access is reached through a restricted socket proxy in Compose, never the raw socket.
+  docker-host: ${DOCKER_HOST:}
+
+logging:
+  level:
+    com.example.reposage.sandbox: INFO

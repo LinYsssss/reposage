@@ -1,3 +1,10 @@
+# RepoSage single-host demo stack.
+#
+# SECURITY NOTE: this Compose file is for CONTROLLED DEMONSTRATIONS, not hostile multi-tenant
+# execution. The sandbox-runner reaches Docker only through a restricted socket proxy (never the raw
+# host socket), and analysis containers it launches get `--network none` and no Docker access. That
+# contains accidental and demo-level misuse, but a single shared host is not a substitute for
+# per-tenant VM/Kata isolation under a real adversary.
 services:
   postgres:
     image: pgvector/pgvector:pg16
@@ -43,6 +50,41 @@ services:
       MODEL_VERSION: docker-demo-v1
     ports:
       - "8000:8000"
+
+  # Restricted Docker API: forwards only the operations the runner needs and denies the rest.
+  # Mounts the host socket itself; the runner only ever sees this filtered TCP endpoint.
+  docker-socket-proxy:
+    image: tecnativa/docker-socket-proxy:0.2
+    environment:
+      CONTAINERS: 1
+      IMAGES: 1
+      INFO: 1
+      POST: 1
+      # Explicitly denied (default is deny for anything not set to 1).
+      EXEC: 0
+      NETWORKS: 0
+      VOLUMES: 0
+      SWARM: 0
+      SECRETS: 0
+      CONFIGS: 0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    # No published ports: reachable only by other services on the Compose network.
+
+  # Trusted runner: consumes signed jobs and launches constrained ephemeral analysis containers.
+  # No published ports (no inbound HTTP). Docker access is via the proxy only.
+  sandbox-runner:
+    build:
+      context: ../sandbox-runner
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-code_review}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-change-me}
+      SANDBOX_SIGNING_SECRET: ${SANDBOX_SIGNING_SECRET:-change-me-sandbox}
+      DOCKER_HOST: tcp://docker-socket-proxy:2375
+    depends_on:
+      - rabbitmq
+      - docker-socket-proxy
 
   frontend:
     build:
