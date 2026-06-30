@@ -82,6 +82,11 @@ services:
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-change-me}
       SANDBOX_SIGNING_SECRET: ${SANDBOX_SIGNING_SECRET:-change-me-sandbox}
       DOCKER_HOST: tcp://docker-socket-proxy:2375
+      SANDBOX_CACHE_ROOT: /cache
+    volumes:
+      # Dependency caches: populated by allowlisted preparation jobs, mounted read-only into
+      # untrusted test containers (which always run with --network none).
+      - sandbox_dep_cache:/cache
     depends_on:
       - rabbitmq
       - docker-socket-proxy
@@ -107,3 +112,4 @@ services:
 volumes:
   postgres_data:
   backend_work:
+  sandbox_dep_cache:

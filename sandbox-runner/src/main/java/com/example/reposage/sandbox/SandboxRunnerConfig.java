@@ -1,5 +1,7 @@
 package com.example.reposage.sandbox;
 
+import java.nio.file.Path;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,17 @@ public class SandboxRunnerConfig {
     @Bean
     public SandboxReplayGuard sandboxReplayGuard() {
         return new SandboxReplayGuard();
+    }
+
+    @Bean
+    public DependencyPreparationPolicy dependencyPreparationPolicy() {
+        return new DependencyPreparationPolicy();
+    }
+
+    @Bean
+    public DependencyCacheManager dependencyCacheManager(
+            @Value("${sandbox.cache-root:/cache}") String cacheRoot) {
+        return new DependencyCacheManager(Path.of(cacheRoot));
     }
 
     @Bean
