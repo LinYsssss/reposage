@@ -1,0 +1,158 @@
+{
+  "generatedAt": "2026-08-13T01:17:45.143Z",
+  "environment": {
+    "chrome": "151.0.7922.109",
+    "node": "22.23.2"
+  },
+  "viewports": {
+    "login1440": {
+      "loginVisible": true,
+      "overflowX": false,
+      "favicon": "data:,",
+      "ambientPointerEvents": "none"
+    },
+    "agent1440": {
+      "overflowX": false,
+      "shell": "236px 1204px",
+      "agent": "810px 292px",
+      "rail": {
+        "x": 1106,
+        "y": 92,
+        "width": 292,
+        "height": 834.6875,
+        "top": 92,
+        "right": 1398,
+        "bottom": 926.6875,
+        "left": 1106
+      },
+      "findings": 3,
+      "diffRows": 10,
+      "status": "等待审批",
+      "approvalEnabled": true
+    },
+    "agent768": {
+      "overflowX": false,
+      "sidebar": {
+        "x": 0,
+        "y": -1390,
+        "width": 218,
+        "height": 2784.125,
+        "top": -1390,
+        "right": 218,
+        "bottom": 1394.125,
+        "left": 0
+      },
+      "main": {
+        "x": 218,
+        "y": -1390,
+        "width": 550,
+        "height": 2784.125,
+        "top": -1390,
+        "right": 768,
+        "bottom": 1394.125,
+        "left": 218
+      },
+      "railInert": true,
+      "railFab": "grid"
+    },
+    "agent390": {
+      "overflowX": false,
+      "sidebarInert": true,
+      "railInert": true,
+      "diff": [
+        320,
+        720
+      ],
+      "topbar": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 64,
+        "top": 0,
+        "right": 390,
+        "bottom": 64,
+        "left": 0
+      },
+      "railFab": {
+        "x": 282,
+        "y": 10,
+        "width": 44,
+        "height": 44,
+        "top": 10,
+        "right": 326,
+        "bottom": 54,
+        "left": 282
+      },
+      "motionText": "静态墨境动效",
+      "notification": "none"
+    }
+  },
+  "interactions": {
+    "loginValidation": {
+      "alert": "账号或密码不能为空，请补全后重试。",
+      "invalid": [
+        "username",
+        "password"
+      ]
+    },
+    "login": {
+      "shell": true,
+      "user": "林",
+      "project": "AuthZ 权限提升复核"
+    },
+    "staticMode": {
+      "pressed": "true",
+      "label": "启用水墨动效",
+      "className": "ink-app-shell ink-static-mode",
+      "particleVisible": "block"
+    },
+    "approvalDialog": {
+      "open": true,
+      "focus": "确认落印",
+      "modal": "dialog"
+    },
+    "approvalReturn": {
+      "closed": true,
+      "focus": "批准并落印"
+    },
+    "rail768": {
+      "open": true,
+      "focus": "关闭朱批栏",
+      "bodyLocked": "hidden",
+      "firstFinding": "缺少管理员授权校验"
+    },
+    "nav390": {
+      "open": true,
+      "focus": "关闭主导航",
+      "bodyLocked": "hidden"
+    },
+    "rail390": {
+      "open": true,
+      "left": 60,
+      "focus": "关闭朱批栏",
+      "bodyLocked": "hidden"
+    },
+    "reducedMotion": {
+      "matches": true,
+      "sidebarTransform": "matrix(1, 0, 0, 1, -295.8, 0)",
+      "sidebarInert": true,
+      "cloudDuration": "0s"
+    }
+  },
+  "expectedNetwork": [
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "network",
+          "level": "error",
+          "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+          "timestamp": 1786583865503.474,
+          "url": "http://127.0.0.1:5190/api/auth/me",
+          "networkRequestId": "29368.125"
+        }
+      }
+    }
+  ],
+  "issues": []
+}

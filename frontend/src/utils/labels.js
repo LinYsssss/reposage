@@ -1,7 +1,7 @@
 import { fmtDate } from './format.js'
 
 // 状态/枚举 → 中文标签与样式类的纯函数映射。从 App.vue 抽出,供各视图共用。
-export function statusLabel(s) { return { PENDING: '等待中', RUNNING: '运行中', SUCCESS: '成功', FAILED: '失败', DEAD: '已死信', CANCELED: '已停止' }[s] || s }
+export function statusLabel(s) { return { PENDING: '等待中', RUNNING: '运行中', SUCCESS: '成功', SUCCEEDED: '已完成', COMPLETED: '已完成', FAILED: '失败', TIMED_OUT: '已超时', DEAD: '已死信', CANCELED: '已停止', WAITING_APPROVAL: '等待审批', WAITING_EXTERNAL: '等待外部', RECEIVED: '已接卷', PREPARING_REPOSITORY: '准备仓库', ANALYZING_CHANGE: '分析变更', RETRIEVING_CONTEXT: '检索上下文', PLANNING: '规划中', EXECUTING_TOOLS: '执行工具', VERIFYING_FINDINGS: '验证 Finding', GENERATING_PATCH: '生成 Patch', VALIDATING_PATCH: '验证 Patch', PUBLISHING_RESULT: '发布结果' }[s] || s }
 export function prStateLabel(s) { return { PENDING: '待审查', PASSED: '已通过', CHANGES_REQUESTED: '已打回', WAIVED: '已豁免' }[s] || s }
 export function actionLabel(s) { return { APPROVE: '通过', REQUEST_CHANGES: '打回', WAIVE: '豁免', COMMENT: '评论' }[s] || s }
 export function actionStateClass(s) { return { APPROVE: 'SUCCESS', REQUEST_CHANGES: 'FAILED', WAIVE: 'PENDING', COMMENT: 'CONSUMED' }[s] || s }

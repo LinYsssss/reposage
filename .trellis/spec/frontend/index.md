@@ -12,6 +12,7 @@
 | [State Management](./state-management.md) | 模块级单例 composable 模式、领域划分、401/SSE 硬规则 |
 | [Component Guidelines](./component-guidelines.md) | SFC 写法、props/emits、Observatory 设计系统、逻辑抽离测试 |
 | [Quality Guidelines](./quality-guidelines.md) | lockfile 源纪律、API 边界容错、node --test 测试写法 |
+| [Ink Review Atelier](./ink-review-atelier.md) | 墨境三层架构、响应式抽屉、动效降级、Diff 与审批合同 |
 
 后端契约(分页信封、ErrorCode、REST 字段)见 `.trellis/spec/backend/frozen-contracts.md`;
 跨包纪律见 `.trellis/spec/guides/`。

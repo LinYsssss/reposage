@@ -128,3 +128,23 @@ test('agent SSE and pollers are torn down with the session', async () => {
   assert.match(agentReset, /stopAgentPolling\(\)/)
   assert.match(agentReset, /agentRuns\.value = \[\]/)
 })
+
+
+test('ink frontend keeps ambient, drawer, and approval accessibility contracts', async () => {
+  const shell = await readFile(new URL('../src/components/AppShell.vue', import.meta.url), 'utf8')
+  const ambient = await readFile(new URL('../src/components/InkAmbientScene.vue', import.meta.url), 'utf8')
+  const rail = await readFile(new URL('../src/components/AnnotationRail.vue', import.meta.url), 'utf8')
+  const approval = await readFile(new URL('../src/components/agent/PatchApprovalPanel.vue', import.meta.url), 'utf8')
+  const tokens = await readFile(new URL('../src/tokens.css', import.meta.url), 'utf8')
+
+  assert.match(shell, /:inert="mobileLayout && !navOpen"/)
+  assert.match(shell, /aria-pressed="String\(staticMode\)"/)
+  assert.match(ambient, /requestAnimationFrame/)
+  assert.match(ambient, /prefers-reduced-motion: reduce/)
+  assert.match(rail, /:inert="!desktopLayout && !open"/)
+  assert.match(rail, /event\.key === 'Escape'/)
+  assert.match(approval, /role="dialog"/)
+  assert.match(approval, /确认批准候选 Patch/)
+  assert.match(tokens, /\.ink-static-mode \.ink-grain/)
+  assert.match(tokens, /@media \(max-width: 767px\)/)
+})

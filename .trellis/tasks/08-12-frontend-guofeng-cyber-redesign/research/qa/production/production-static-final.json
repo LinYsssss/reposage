@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-08-13T01:20:23.896Z",
+  "before": {
+    "grain": "ink-paper-breathe",
+    "taiji": "ink-taiji-breathe",
+    "rail": {
+      "x": 282,
+      "y": 10,
+      "width": 44,
+      "height": 44,
+      "top": 10,
+      "right": 326,
+      "bottom": 54,
+      "left": 282
+    },
+    "motion": "静态墨境动效"
+  },
+  "after": {
+    "pressed": "true",
+    "grain": "none",
+    "taiji": "none",
+    "mountain": "none",
+    "canvasOpacity": "0.18"
+  },
+  "issues": []
+}

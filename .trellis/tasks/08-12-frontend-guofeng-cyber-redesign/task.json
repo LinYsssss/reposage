@@ -3,7 +3,7 @@
   "name": "frontend-guofeng-cyber-redesign",
   "title": "前端产品重构：墨境书院动态审查台",
   "description": "基于 frontend-product-workflow 重构 RepoSage 前端为墨境书院；加入可降级水墨动效，允许重组前端架构，同时保持业务合同、可读性、无障碍与性能。",
-  "status": "planning",
+  "status": "in_progress",
   "dev_type": null,
   "scope": "frontend",
   "package": null,
@@ -12,20 +12,20 @@
   "assignee": "LinYsssss",
   "createdAt": "2026-08-12",
   "completedAt": null,
-  "branch": null,
+  "branch": "codex/frontend-guofeng-cyber-redesign",
   "base_branch": "main",
-  "worktree_path": null,
+  "worktree_path": "F:\\202605New\\.worktrees\\frontend-guofeng-cyber-redesign",
   "commit": null,
   "pr_url": null,
   "subtasks": [],
   "children": [],
   "parent": null,
   "relatedFiles": [],
-  "notes": "",
+  "notes": "Production login/AppShell/Agent vertical slice and InkAmbientScene passed Node 22 + Chrome QA on 2026-08-13. Remaining: route-by-route migration and full Stage 7.",
   "meta": {
     "workflow": "frontend-product-workflow",
-    "stage": "planning",
+    "stage": "vertical-slice-verified",
     "chosen_direction": "ink-review-atelier",
-    "frontend_stage": "prototype-review"
+    "frontend_stage": "production-vertical-slice-passed"
   }
 }

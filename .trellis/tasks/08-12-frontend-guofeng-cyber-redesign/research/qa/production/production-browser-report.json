@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-08-13T01:12:36.163Z",
+  "environment": {
+    "chrome": "151.0.7922.109",
+    "node": "22.23.2"
+  },
+  "viewports": {
+    "login1440": {
+      "loginVisible": true,
+      "overflowX": false,
+      "panel": {
+        "x": 906.5,
+        "y": 232.078125,
+        "width": 420,
+        "height": 535.84375,
+        "top": 232.078125,
+        "right": 1326.5,
+        "bottom": 767.921875,
+        "left": 906.5
+      },
+      "ambientPointerEvents": "none"
+    },
+    "agent1440": {
+      "overflowX": false,
+      "shellColumns": "236px 1204px",
+      "layoutColumns": "810px 292px",
+      "rail": {
+        "x": 1106,
+        "y": 92,
+        "width": 292,
+        "height": 834.6875,
+        "top": 92,
+        "right": 1398,
+        "bottom": 926.6875,
+        "left": 1106
+      },
+      "findings": 3,
+      "diffRows": 10,
+      "approvalEnabled": true
+    },
+    "agent768": {
+      "overflowX": false,
+      "sidebar": {
+        "x": 0,
+        "y": 0,
+        "width": 218,
+        "height": 2784.125,
+        "top": 0,
+        "right": 218,
+        "bottom": 2784.125,
+        "left": 0
+      },
+      "railInert": true,
+      "railFab": "grid",
+      "main": {
+        "x": 218,
+        "y": 0,
+        "width": 550,
+        "height": 2784.125,
+        "top": 0,
+        "right": 768,
+        "bottom": 2784.125,
+        "left": 218
+      }
+    },
+    "agent390": {
+      "overflowX": false,
+      "sidebarInert": true,
+      "railInert": true,
+      "diff": [
+        320,
+        720
+      ],
+      "topbar": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 64,
+        "top": 0,
+        "right": 390,
+        "bottom": 64,
+        "left": 0
+      },
+      "railFab": {
+        "x": 322,
+        "y": 776,
+        "width": 50,
+        "height": 50,
+        "top": 776,
+        "right": 372,
+        "bottom": 826,
+        "left": 322
+      }
+    }
+  },
+  "interactions": {
+    "loginValidation": {},
+    "login": {
+      "shell": true,
+      "user": "林",
+      "project": "AuthZ 权限提升复核"
+    },
+    "staticMode": {
+      "pressed": "false",
+      "className": "ink-app-shell",
+      "grainDuration": "36s"
+    },
+    "rail768": {
+      "open": true,
+      "inert": false,
+      "focus": "关闭朱批栏",
+      "bodyLocked": "hidden"
+    },
+    "nav390": {
+      "open": true,
+      "inert": false,
+      "focus": "关闭主导航",
+      "bodyLocked": "hidden"
+    },
+    "rail390": {
+      "open": true,
+      "left": 60,
+      "inert": false,
+      "focus": "关闭朱批栏"
+    },
+    "reducedMotion": {
+      "matches": true,
+      "sidebarTransform": "matrix(1, 0, 0, 1, -295.8, 0)",
+      "sidebarInert": true,
+      "cloudDuration": "0s"
+    }
+  },
+  "console": [
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "network",
+          "level": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "timestamp": 1786583556748.284,
+          "url": "http://127.0.0.1:5188/favicon.ico",
+          "networkRequestId": "32296.126"
+        }
+      }
+    },
+    {
+      "method": "Log.entryAdded",
+      "params": {
+        "entry": {
+          "source": "network",
+          "level": "error",
+          "text": "Failed to load resource: the server responded with a status of 401 (Unauthorized)",
+          "timestamp": 1786583556748.606,
+          "url": "http://127.0.0.1:5190/api/auth/me",
+          "networkRequestId": "32296.125"
+        }
+      }
+    }
+  ]
+}
